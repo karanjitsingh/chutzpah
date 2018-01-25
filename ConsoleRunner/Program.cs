@@ -17,6 +17,8 @@ namespace Chutzpah
         [STAThread]
         public static int Main(string[] args)
         {
+            string asdf = Environment.CurrentDirectory;
+
             if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER_CHUTZPAH") != null)
             {
                 Debugger.Launch();
@@ -132,7 +134,9 @@ namespace Chutzpah
         static int RunTests(CommandLine commandLine, IEnumerable<SummaryTransformer> transformers)
         {
 
-            var testRunner = TestRunner.Create(debugEnabled: commandLine.Debug);
+            //var testRunner = PhantomTestRunner.Create(debugEnabled: commandLine.Debug);
+
+            var testRunner = NodeTestRunner.Create(debugEnabled: commandLine.Debug);
 
             if (commandLine.Trace)
             {

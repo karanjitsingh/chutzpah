@@ -29,6 +29,11 @@ namespace Chutzpah
             p.StartInfo.FileName = exePath;
             p.StartInfo.Arguments = arguments;
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+
+            p.StartInfo.EnvironmentVariables["NODE_PATH"] = @"D:\chutzpah\ConsoleRunner\bin\Debug\node_modules";
             p.Start();
 
             ChutzpahTracer.TraceInformation("Started headless browser: {0} with PID: {1} using args: {2}", exePath, p.Id, arguments);
