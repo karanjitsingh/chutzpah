@@ -17,8 +17,6 @@ namespace Chutzpah
         [STAThread]
         public static int Main(string[] args)
         {
-            string asdf = Environment.CurrentDirectory;
-
             if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER_CHUTZPAH") != null)
             {
                 Debugger.Launch();

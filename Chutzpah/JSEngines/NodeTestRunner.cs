@@ -18,7 +18,7 @@ namespace Chutzpah
 {
     public class NodeTestRunner : ITestRunner
     {
-        public static string HeadlessBrowserName = "node.exe";
+        public static string HeadlessBrowserName = @"node.exe";
         public static string TestRunnerJsName = @"ChutzpahJSRunners\chutzpahRunner.js";
         private readonly Stopwatch stopWatch;
         private readonly IProcessHelper process;
@@ -637,10 +637,10 @@ namespace Chutzpah
             string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
             string fileUrl = BuildHarnessUrl(testContext);
 
-            //string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
+            string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
 
-            string runnerArgs = "E:\\sample.js";
+            runnerArgs = "E:\\sample.js";
 
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
             //processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
