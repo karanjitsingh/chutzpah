@@ -240,12 +240,14 @@ namespace Chutzpah
                     return overallSummary;
                 }
 
-                // Find the first test context with a web server configuration and use it
-                var webServerHost = SetupWebServerHost(testContexts, activeWebServerHost);
-                ActiveWebServerHost = webServerHost;
+                //// Find the first test context with a web server configuration and use it
+                //var webServerHost = SetupWebServerHost(testContexts, activeWebServerHost);
+                //ActiveWebServerHost = webServerHost;
+
+                IChutzpahWebServerHost webServerHost = null;
 
                 // Build test harness for each context and execute it in parallel
-                ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, headlessBrowserPath, testFileSummaries, overallSummary, webServerHost);
+                 ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, headlessBrowserPath, testFileSummaries, overallSummary, webServerHost);
 
 
                 // Gather TestFileSummaries into TaseCaseSummary
@@ -403,20 +405,20 @@ namespace Chutzpah
 
                     try
                     {
-                        try
-                        {
-                            testHarnessBuilder.CreateTestHarness(testContext, options);
-                        }
-                        catch (IOException)
-                        {
-                            // Mark this creation failed so we do not try to clean it up later
-                            // This is to work around a bug in TestExplorer that runs chutzpah in parallel on 
-                            // the same files
-                            // TODO(mmanela): Re-evalute if this is needed once they fix that bug
-                            testContext.TestHarnessCreationFailed = true;
-                            ChutzpahTracer.TraceWarning("Marking test harness creation failed for harness {0} and test file {1}", testContext.TestHarnessPath, testContext.FirstInputTestFile);
-                            throw;
-                        }
+                        //try
+                        //{
+                        //    testHarnessBuilder.CreateTestHarness(testContext, options);
+                        //}
+                        //catch (IOException)
+                        //{
+                        //    // Mark this creation failed so we do not try to clean it up later
+                        //    // This is to work around a bug in TestExplorer that runs chutzpah in parallel on 
+                        //    // the same files
+                        //    // TODO(mmanela): Re-evalute if this is needed once they fix that bug
+                        //    testContext.TestHarnessCreationFailed = true;
+                        //    ChutzpahTracer.TraceWarning("Marking test harness creation failed for harness {0} and test file {1}", testContext.TestHarnessPath, testContext.FirstInputTestFile);
+                        //    throw;
+                        //}
 
                         if (options.TestLaunchMode == TestLaunchMode.FullBrowser)
                         {
@@ -634,13 +636,12 @@ namespace Chutzpah
                                                  TestExecutionMode testExecutionMode,
                                                  ITestMethodRunnerCallback callback)
         {
-            string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
-            string fileUrl = BuildHarnessUrl(testContext);
+            //string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
+            //string fileUrl = BuildHarnessUrl(testContext);
 
-            string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
+            //string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
-
-            runnerArgs = "E:\\sample.js";
+            string runnerArgs = @".\node_modules\jasmine\bin\jasmine.js D:\test\spec\testspec.js";
 
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
             //processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
@@ -685,6 +686,7 @@ namespace Chutzpah
                 ChutzpahTracer.TraceError("Headless browser returned with an error: {0}", errorMessage);
             }
         }
+
 
         private static string BuildRunnerArgs(TestOptions options, TestContext context, string fileUrl, string runnerPath, TestExecutionMode testExecutionMode)
         {
