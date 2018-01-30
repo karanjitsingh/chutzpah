@@ -1,6 +1,8 @@
 ﻿/*globals phantom, require, console*/
 var chutzpah = {};
 
+debugger;
+
 chutzpah.runner = function (onInitialized, onPageLoaded, isFrameworkLoaded, onFrameworkLoaded, isTestingDone) {
     /// <summary>Executes a test suite and evaluates the results using the provided functions.</summary>
     /// <param name="onInitialized" type="Function">Callback function which is called when the page initialized but not loaded.</param>

@@ -641,7 +641,7 @@ namespace Chutzpah
 
             //string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
-            string runnerArgs = @".\node_modules\jasmine\bin\jasmine.js D:\test\spec\testspec.js";
+            string runnerArgs = @".\node_modules\jasmine\bin\jasmine.js " + testContext.InputTestFilesString;
 
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
             //processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
