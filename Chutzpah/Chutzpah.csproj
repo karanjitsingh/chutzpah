@@ -382,7 +382,12 @@
     <Content Include="ChutzpahJSRunners\mochaRunner.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="node.exe" />
+    <Content Include="ChutzpahJSRunners\jasmineNodeRunner.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="node.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ChutzpahTestHarnessFiles\chutzpah_boot.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

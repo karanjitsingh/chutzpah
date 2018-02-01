@@ -19,7 +19,7 @@ namespace Chutzpah
     public class NodeTestRunner : ITestRunner
     {
         public static string HeadlessBrowserName = @"node.exe";
-        public static string TestRunnerJsName = @"ChutzpahJSRunners\chutzpahRunner.js";
+        public static string TestRunnerJsName = @"ChutzpahJSRunners\jasmineNodeRunner.js";
         private readonly Stopwatch stopWatch;
         private readonly IProcessHelper process;
         private readonly ITestCaseStreamReaderFactory testCaseStreamReaderFactory;
@@ -247,7 +247,7 @@ namespace Chutzpah
                 IChutzpahWebServerHost webServerHost = null;
 
                 // Build test harness for each context and execute it in parallel
-                 ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, headlessBrowserPath, testFileSummaries, overallSummary, webServerHost);
+                ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, headlessBrowserPath, testFileSummaries, overallSummary, webServerHost);
 
 
                 // Gather TestFileSummaries into TaseCaseSummary
@@ -638,10 +638,10 @@ namespace Chutzpah
         {
             //string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
             //string fileUrl = BuildHarnessUrl(testContext);
+            string runnerPath = fileProbe.FindFilePath(NodeTestRunner.TestRunnerJsName);
+            string fileUrl = testContext.FirstInputTestFile;
 
-            //string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
-
-            string runnerArgs = @"D:\test\reporter.js " + testContext.InputTestFilesString;
+            string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
             processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
@@ -693,15 +693,20 @@ namespace Chutzpah
             var timeout = context.TestFileSettings.TestFileTimeout ?? options.TestFileTimeoutMilliseconds ?? Constants.DefaultTestFileTimeout;
             var proxy = options.Proxy ?? context.TestFileSettings.Proxy;
             var proxySetting = string.IsNullOrEmpty(proxy) ? "--proxy-type=none" : string.Format("--proxy={0}", proxy);
-            runnerArgs = string.Format("--ignore-ssl-errors=true {0} --ssl-protocol=any \"{1}\" {2} {3} {4} {5} {6}",
-                                       proxySetting,
-                                       runnerPath,
-                                       fileUrl,
-                                       testModeStr,
-                                       timeout,
-                                       context.TestFileSettings.IgnoreResourceLoadingErrors.Value,
-                                       context.TestFileSettings.UserAgent);
+            //runnerArgs = string.Format("--ignore-ssl-errors=true {0} --ssl-protocol=any \"{1}\" {2} {3} {4} {5} {6}",
+            //                           proxySetting,
+            //                           runnerPath,
+            //                           fileUrl,
+            //                           testModeStr,
+            //                           timeout,
+            //                           context.TestFileSettings.IgnoreResourceLoadingErrors.Value,
+            //                           context.TestFileSettings.UserAgent);
 
+
+            runnerArgs = string.Format("{0} {1} {2}",
+                                        runnerPath,
+                                        fileUrl,
+                                        testModeStr);
 
             return runnerArgs;
         }

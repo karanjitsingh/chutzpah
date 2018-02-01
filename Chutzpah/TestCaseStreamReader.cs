@@ -216,6 +216,7 @@ namespace Chutzpah
             while ((line = stream.ReadLine()) != null)
             {
                 if (debugEnabled) Console.WriteLine(line);
+                Console.WriteLine(line);
 
                 var match = prefixRegex.Match(line);
                 if (!match.Success) continue;
