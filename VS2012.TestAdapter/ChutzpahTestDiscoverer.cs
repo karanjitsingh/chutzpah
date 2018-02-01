@@ -32,6 +32,7 @@ namespace Chutzpah.VS2012.TestAdapter
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
+            Debugger.Launch();
             if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER_CHUTZPAH") != null)
             {
                 Debugger.Launch();

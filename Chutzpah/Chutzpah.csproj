@@ -244,6 +244,7 @@
     <Compile Include="Coverage\SourceMapDotNetLineCoverageMapper.cs" />
     <Compile Include="IUrlBuilder.cs" />
     <Compile Include="JSEngines\NodeTestRunner.cs" />
+    <Compile Include="JSEngines\TestRunner.cs" />
     <Compile Include="Server\ChutzpahServerFileProvider.cs" />
     <Compile Include="Transformers\JacocoTransformer.cs" />
     <Compile Include="UrlBuilder.cs" />

@@ -638,7 +638,7 @@ namespace Chutzpah
             string fileUrl = BuildHarnessUrl(testContext);
 
             string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
-            runnerArgs = "--remote-debugger-port=9000 --remote-debugger-autorun=yes " + runnerArgs;
+
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
                 processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
             var processResult = process.RunExecutableAndProcessOutput(headlessBrowserPath, runnerArgs, streamProcessor);
