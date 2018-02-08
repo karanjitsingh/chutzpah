@@ -26,6 +26,12 @@ namespace Chutzpah.Models
         SettingsFileDirectory
     }
 
+    public enum JavaScriptEngine
+    {
+        PhantomJS,
+        NodeJS
+    }
+
     public enum CodeCoverageExecutionMode
     {
         /// <summary>
@@ -88,12 +94,19 @@ namespace Chutzpah.Models
             RootReferencePathMode = Models.RootReferencePathMode.DriveRoot;
             EnableTestFileBatching = false;
             IgnoreResourceLoadingErrors = false;
-            
+            JavaScriptEngine = Models.JavaScriptEngine.PhantomJS;
+
             if (ForceWebServerMode)
             {
                 Server = new ForcedChutzpahWebServerConfiguration();
             }
         }
+
+        /// <summary>
+        /// Determines the javascript runtime (phantom/node) to run the tests in. 
+        /// parent settings file.
+        /// </summary>
+        public JavaScriptEngine? JavaScriptEngine { get; set; }
 
         public bool IsDefaultSettings { get; set; }
 

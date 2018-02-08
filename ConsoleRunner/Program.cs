@@ -134,13 +134,8 @@ namespace Chutzpah
 
         static int RunTests(CommandLine commandLine, IEnumerable<SummaryTransformer> transformers)
         {
-            ITestRunner testRunner;
-
-            if(commandLine.UseNodeRunner)
-                testRunner = NodeTestRunner.Create(debugEnabled: commandLine.Debug);
-            else
-                testRunner = PhantomTestRunner.Create(debugEnabled: commandLine.Debug);
-
+            ITestRunner testRunner = TestRunner.Create(debugEnabled: commandLine.Debug);
+            
             if (commandLine.Trace)
             {
                 ChutzpahTracer.AddFileListener();
