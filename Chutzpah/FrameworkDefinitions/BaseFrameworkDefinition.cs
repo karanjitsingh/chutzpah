@@ -23,6 +23,11 @@ namespace Chutzpah.FrameworkDefinitions
         }
 
         /// <summary>
+        /// Gets the runtime for the supported framework
+        /// </summary>
+        public abstract JavaScriptEngine JavaScriptEngine { get; }
+
+        /// <summary>
         /// Gets a short, file system friendly key for the framework library.
         /// </summary>
         public abstract string FrameworkKey { get; }
@@ -60,7 +65,7 @@ namespace Chutzpah.FrameworkDefinitions
         /// <param name="chutzpahTestSettings"></param>
         public virtual string GetTestRunner(ChutzpahTestSettingsFile chutzpahTestSettings)
         {
-            return @"ChutzpahJSRunners\" + FrameworkKey + "Runner.js";
+            return String.Format(@"ChutzpahJSRunners\{0}\{1}Runner.js", JavaScriptEngine.ToString(), FrameworkKey);
         }
 
         /// <summary>

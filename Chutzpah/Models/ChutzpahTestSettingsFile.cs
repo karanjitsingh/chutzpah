@@ -106,7 +106,7 @@ namespace Chutzpah.Models
         /// Determines the javascript runtime (phantom/node) to run the tests in. 
         /// parent settings file.
         /// </summary>
-        public JavaScriptEngine? JavaScriptEngine { get; set; }
+        public JavaScriptEngine JavaScriptEngine { get; set; }
 
         public bool IsDefaultSettings { get; set; }
 

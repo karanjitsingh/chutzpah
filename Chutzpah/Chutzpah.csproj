@@ -242,6 +242,7 @@
     <Compile Include="Coverage\CoverageOutputGenerator.cs" />
     <Compile Include="Coverage\ILineCoverageMapper.cs" />
     <Compile Include="Coverage\SourceMapDotNetLineCoverageMapper.cs" />
+    <Compile Include="FrameworkDefinitions\NodeJS\JasmineDefinition.cs" />
     <Compile Include="IUrlBuilder.cs" />
     <Compile Include="JSRuntimeProviders\IJSRuntimeProvider.cs" />
     <Compile Include="JSRuntimeProviders\IJSRuntimeProviderFactory.cs" />
@@ -286,10 +287,10 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="FileProbe.cs" />
     <Compile Include="FrameworkDefinitions\BaseFrameworkDefinition.cs" />
-    <Compile Include="FrameworkDefinitions\MochaDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\PhantomJS\MochaDefinition.cs" />
     <Compile Include="FrameworkDefinitions\IFrameworkDefinition.cs" />
-    <Compile Include="FrameworkDefinitions\JasmineDefinition.cs" />
-    <Compile Include="FrameworkDefinitions\QUnitDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\PhantomJS\JasmineDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\PhantomJS\QUnitDefinition.cs" />
     <Compile Include="ITestCaseStreamReader.cs" />
     <Compile Include="ITestCaseStreamReaderFactory.cs" />
     <Compile Include="Models\BaseTestCaseSummary.cs" />
@@ -379,13 +380,16 @@
     <Compile Include="Wrappers\ProcessWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ChutzpahJSRunners\jasmineRunnerV2.js">
+    <Content Include="ChutzpahJSRunners\NodeJS\chutzpahRunner.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ChutzpahJSRunners\mochaRunner.js">
+    <Content Include="ChutzpahJSRunners\PhantomJS\jasmineRunnerV2.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ChutzpahJSRunners\jasmineNodeRunner.js">
+    <Content Include="ChutzpahJSRunners\PhantomJS\mochaRunner.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ChutzpahJSRunners\NodeJS\jasmineRunner.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="node.exe">
@@ -455,13 +459,13 @@
       <Link>phantomjs.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ChutzpahJSRunners\chutzpahRunner.js">
+    <Content Include="ChutzpahJSRunners\PhantomJS\chutzpahRunner.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ChutzpahJSRunners\jasmineRunnerV1.js">
+    <Content Include="ChutzpahJSRunners\PhantomJS\jasmineRunnerV1.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ChutzpahJSRunners\qunitRunner.js">
+    <Content Include="ChutzpahJSRunners\PhantomJS\qunitRunner.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ChutzpahTestHarnessFiles\QUnit\v1\qunit.css">

@@ -26,8 +26,6 @@ namespace Chutzpah
             Parse();
         }
 
-        public bool UseNodeRunner { get; set; }
-
         public bool ShowFailureReport { get; set; }
 
         public bool Discovery { get; set; }
@@ -102,10 +100,6 @@ namespace Chutzpah
 
                 switch (optionName)
                 {
-                    case "/usenode":
-                        GuardNoOptionValue(option);
-                        UseNodeRunner = true;
-                    break;
                     case "/wait":
                         GuardNoOptionValue(option);
                         Wait = true;

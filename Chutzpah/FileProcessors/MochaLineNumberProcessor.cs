@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Chutzpah.FrameworkDefinitions;
+using Chutzpah.FrameworkDefinitions.PhantomJS;
 using Chutzpah.Models;
 using Chutzpah.Wrappers;
 

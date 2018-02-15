@@ -1,4 +1,6 @@
 var Jasmine = require('jasmine');
+var chutzpah = require('./chutzpahRunner.js');
+
 
 var jasmine = new Jasmine();
 
@@ -6,38 +8,6 @@ var activeTestCase = null,
     fileStartTime = null,
     testStartTime = null,
     suites = [];
-
-function wrap(txt) {
-    return '#_#' + txt + '#_# ';
-}
-
-function writeEvent(eventType, json) {
-
-    // Everytime we get an event update the startTime. We want timeout to happen
-    // when were have gone quiet for too long
-    switch (eventType) {
-        case 'FileStart':
-        case 'TestStart':
-        case 'TestDone':
-        case 'Log':
-        case 'Error':
-        case 'CoverageObject':
-            console.log(wrap(eventType) + json);
-            break;
-
-        case 'FileDone':
-            console.log(wrap(eventType) + json);
-            break;
-
-        default:
-            break;
-    }
-}
-
-function log(obj) {
-    writeEvent(obj.type, JSON.stringify(obj));
-}
-
 
 function recordStackTrace(stack) {
     if (stack) {
@@ -58,14 +28,14 @@ var ChutzpahJasmineReporter = function (options) {
         fileStartTime = new Date().getTime();
 
         // Testing began
-        log({ type: "FileStart" });
+        ({ type: "FileStart" });
     };
 
 
     this.jasmineDone = function () {
         var timetaken = new Date().getTime() - fileStartTime;
         // logCoverage();
-        log({ type: "FileDone", timetaken: timetaken, passed: passedCount, failed: failedCount });
+        console.log({ type: "FileDone", timetaken: timetaken, passed: passedCount, failed: failedCount });
         // window.chutzpah.isTestingFinished = true;
     };
 
@@ -88,9 +58,8 @@ var ChutzpahJasmineReporter = function (options) {
         var suiteName = currentSuiteName;
         var specName = result.description;
         var newTestCase = { moduleName: suiteName, testName: specName, testResults: [] };
-        // window.chutzpah.testCases.push(newTestCase);
         activeTestCase = newTestCase;
-        log({ type: "TestStart", testCase: activeTestCase });
+        console.log({ type: "TestStart", testCase: activeTestCase });
     };
 
     this.specDone = function (result) {
@@ -126,7 +95,7 @@ var ChutzpahJasmineReporter = function (options) {
         }
 
         // Log test case when done. This will get picked up by phantom and streamed to chutzpah.
-        log({ type: "TestDone", testCase: activeTestCase });
+        console.log({ type: "TestDone", testCase: activeTestCase });
 
 
     };
@@ -136,10 +105,7 @@ var ChutzpahJasmineReporter = function (options) {
 jasmine.clearReporters();
 jasmine.addReporter(new ChutzpahJasmineReporter());
 
-
-var testMode = process.argv[3];
-
-if (testMode === 'discovery') {
+if (chutzpah.testMode === 'discovery') {
 
     var oldSpecExec = jasmine.jasmine.Spec.prototype.execute;
     jasmine.jasmine.Spec.prototype.execute = function (onComplete) {
@@ -150,6 +116,4 @@ if (testMode === 'discovery') {
     };
 }
 
-
-jasmine.execute([process.argv[2]]);
-
+jasmine.execute(chutzpah.testFiles);

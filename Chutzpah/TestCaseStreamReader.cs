@@ -197,7 +197,7 @@ namespace Chutzpah
                 testFileContext.TestFileSummary.AddTestCase(fileErrorTest);
             }
 
-            ChutzpahTracer.TraceError("Eror recieved from Phantom {0}", error.Error.Message);
+            ChutzpahTracer.TraceError("Error recieved from Phantom {0}", error.Error.Message);
         }
 
         private IList<TestFileSummary> ReadFromStream(StreamReader stream, TestContext testContext, TestOptions testOptions, IList<StreamingTestFileContext> streamingTestFileContexts, IList<Action<StreamingTestFileContext>> deferredEvents, ITestMethodRunnerCallback callback, bool debugEnabled)

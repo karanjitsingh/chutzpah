@@ -454,16 +454,22 @@ namespace Chutzpah
             var strategies = new Func<IFrameworkDefinition>[]
             {
                 // Check chutzpah settings
-                () => frameworkDefinitions.FirstOrDefault(x => x.FrameworkKey.Equals(chutzpahTestSettings.Framework, StringComparison.OrdinalIgnoreCase)),
+                () => frameworkDefinitions.FirstOrDefault(x => x.FrameworkKey.Equals(chutzpahTestSettings.Framework, StringComparison.OrdinalIgnoreCase)
+                                                               && x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine),
 
                 // Check if we see an explicit reference to a framework file (e.g. <reference path="qunit.js" />)
-                () => frameworkDefinitions.FirstOrDefault(x => x.FileUsesFramework(fileText.Value, false, path.Type)),
+                () => frameworkDefinitions.FirstOrDefault(x => x.FileUsesFramework(fileText.Value, false, path.Type)
+                                                               && x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine),
 
                 // Check using basic heuristic like looking for test( or module( for QUnit
-                () => frameworkDefinitions.FirstOrDefault(x => x.FileUsesFramework(fileText.Value, true, path.Type))
+                () => frameworkDefinitions.FirstOrDefault(x => x.FileUsesFramework(fileText.Value, true, path.Type)
+                                                               && x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine),
+
+                // Default to first definition that matches with requires JavaScript engine setting
+                () => frameworkDefinitions.FirstOrDefault(x => x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine)
             };
 
-            definition = strategies.Select(x => x()).FirstOrDefault(x => x != null);
+            definition = strategies.Select(x => x()).First(x => x != null);
             return definition != null;
         }
 

@@ -18,7 +18,6 @@ namespace Chutzpah
         [STAThread]
         public static int Main(string[] args)
         {
-
             if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER_CHUTZPAH") != null)
             {
                 Debugger.Launch();
@@ -120,7 +119,6 @@ namespace Chutzpah
             Console.WriteLine("                               : Specify more than one to add multiple environments.");
             Console.WriteLine("                               : (e.g. settingsFilePath;prop1=val1;prop2=val2).");
             Console.WriteLine("  /proxy                       : Sets the proxy server and port if the test require reference to external uri.");
-            Console.WriteLine("  /useNode                     : Use experimental node test runner.");
 
 
 

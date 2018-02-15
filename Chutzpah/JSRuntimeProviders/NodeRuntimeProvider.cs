@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Chutzpah.BatchProcessor;
@@ -19,7 +20,7 @@ namespace Chutzpah.JSRuntimeProviders
     public class NodeRuntimeProvider: IJSRuntimeProvider
     {
         public static string HeadlessBrowserName = @"node.exe";
-        public static string TestRunnerJsName = @"ChutzpahJSRunners\jasmineNodeRunner.js";
+        public static string TestRunnerJsName = @"ChutzpahJSRunners\NodeJS\chutzpahRunner.js";
 
         private readonly ITestCaseStreamReaderFactory testCaseStreamReaderFactory;
         private readonly IFileProbe fileProbe;
@@ -56,8 +57,8 @@ namespace Chutzpah.JSRuntimeProviders
         {
             //string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
             //string fileUrl = BuildHarnessUrl(testContext);
-            string runnerPath = fileProbe.FindFilePath(NodeRuntimeProvider.TestRunnerJsName);
-            string fileUrl = testContext.FirstInputTestFile;
+            string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
+            string fileUrl = GetTestPaths(testContext);
 
             string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
@@ -71,6 +72,21 @@ namespace Chutzpah.JSRuntimeProviders
             return processResult.Model;
         }
 
+        private static string GetTestPaths(TestContext testContext)
+        {
+            if(testContext.InputTestFiles.Count == 1)
+            {
+                return testContext.FirstInputTestFile;
+            }
+            var combinedPaths = new StringBuilder();
+            foreach(var path in testContext.InputTestFiles)
+            {
+                combinedPaths.Append(path);
+                combinedPaths.Append(";");
+            }
+
+            return combinedPaths.ToString().TrimEnd(';');
+        }
         private static string BuildRunnerArgs(TestOptions options, TestContext context, string fileUrl, string runnerPath, TestExecutionMode testExecutionMode)
         {
             string runnerArgs;
@@ -78,20 +94,12 @@ namespace Chutzpah.JSRuntimeProviders
             var timeout = context.TestFileSettings.TestFileTimeout ?? options.TestFileTimeoutMilliseconds ?? Constants.DefaultTestFileTimeout;
             var proxy = options.Proxy ?? context.TestFileSettings.Proxy;
             var proxySetting = string.IsNullOrEmpty(proxy) ? "--proxy-type=none" : string.Format("--proxy={0}", proxy);
-            //runnerArgs = string.Format("--ignore-ssl-errors=true {0} --ssl-protocol=any \"{1}\" {2} {3} {4} {5} {6}",
-            //                           proxySetting,
-            //                           runnerPath,
-            //                           fileUrl,
-            //                           testModeStr,
-            //                           timeout,
-            //                           context.TestFileSettings.IgnoreResourceLoadingErrors.Value,
-            //                           context.TestFileSettings.UserAgent);
-
 
             runnerArgs = string.Format("{0} {1} {2}",
                                         runnerPath,
                                         fileUrl,
-                                        testModeStr);
+                                        testModeStr,
+                                        timeout);
 
             return runnerArgs;
         }

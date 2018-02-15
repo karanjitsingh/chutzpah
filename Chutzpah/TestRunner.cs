@@ -622,25 +622,6 @@ namespace Chutzpah
                     .ToList(); ;
         }
 
-        //private IList<TestFileSummary> InvokeTestRunner(string headlessBrowserPath,
-        //                                         TestOptions options,
-        //                                         TestContext testContext,
-        //                                         TestExecutionMode testExecutionMode,
-        //                                         ITestMethodRunnerCallback callback)
-        //{
-        //    string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
-        //    string fileUrl = BuildHarnessUrl(testContext);
-
-        //    string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
-        //    Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
-        //        processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
-        //    var processResult = process.RunExecutableAndProcessOutput(headlessBrowserPath, runnerArgs, streamProcessor);
-
-        //    HandleTestProcessExitCode(processResult.ExitCode, testContext.FirstInputTestFile, processResult.Model.Select(x => x.Errors).FirstOrDefault(), callback);
-
-        //    return processResult.Model;
-        //}
-
         private static void HandleTestProcessExitCode(int exitCode, string inputTestFile, IList<TestError> errors, ITestMethodRunnerCallback callback)
         {
             string errorMessage = null;

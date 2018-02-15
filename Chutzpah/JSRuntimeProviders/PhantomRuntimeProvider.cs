@@ -19,7 +19,7 @@ namespace Chutzpah.JSRuntimeProviders
     public class PhantomRuntimeProvider : IJSRuntimeProvider
     {
         public static string HeadlessBrowserName = "phantomjs.exe";
-        public static string TestRunnerJsName = @"ChutzpahJSRunners\chutzpahRunner.js";
+        public static string TestRunnerJsName = @"ChutzpahJSRunners\PhantomJS\chutzpahRunner.js";
 
   
         private readonly ITestCaseStreamReaderFactory testCaseStreamReaderFactory;
@@ -42,6 +42,7 @@ namespace Chutzpah.JSRuntimeProviders
             this.testCaseStreamReaderFactory = testCaseStreamReaderFactory;
             this.fileProbe = fileProbe;
             this.process = process;
+            this.urlBuilder = urlBuilder;
 
             headlessBrowserPath = fileProbe.FindFilePath(HeadlessBrowserName);
             if (headlessBrowserPath == null)

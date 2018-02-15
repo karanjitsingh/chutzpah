@@ -37,6 +37,11 @@ namespace Chutzpah.FrameworkDefinitions
         string GetBlanketScriptName(ChutzpahTestSettingsFile chutzpahTestSettings);
 
         /// <summary>
+        /// Gets the runtime for the supported framework
+        /// </summary>
+        JavaScriptEngine JavaScriptEngine { get; }
+
+        /// <summary>
         /// Gets a short, file system friendly key for the framework library.
         /// </summary>
         string FrameworkKey { get; }
