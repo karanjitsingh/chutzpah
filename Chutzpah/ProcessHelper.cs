@@ -20,7 +20,7 @@ namespace Chutzpah
             this.urlBuilder = urlBuilder;
         }
 
-        public ProcessResult<T> RunExecutableAndProcessOutput<T>(string exePath, string arguments, Func<ProcessStream, T> streamProcessor) where T : class
+        public ProcessResult<T> RunExecutableAndProcessOutput<T>(string exePath, string arguments, Func<ProcessStream, T> streamProcessor, IDictionary<string, string> envVars) where T : class
         {
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
@@ -33,7 +33,14 @@ namespace Chutzpah
             p.StartInfo.RedirectStandardError = true;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
 
-            p.StartInfo.EnvironmentVariables["NODE_PATH"] = @"D:\chutzpah\ConsoleRunner\bin\Debug\node_modules";
+            if (envVars != null)
+            {
+                foreach (KeyValuePair<string, string> entry in envVars)
+                {
+                    p.StartInfo.EnvironmentVariables[entry.Key] = entry.Value;
+                }
+            }
+
             p.Start();
 
             ChutzpahTracer.TraceInformation("Started headless browser: {0} with PID: {1} using args: {2}", exePath, p.Id, arguments);

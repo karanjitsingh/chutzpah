@@ -13,7 +13,7 @@ namespace Chutzpah.PerfTester
 
             Console.WriteLine("Samples: {0}\n",PerfRunner.Samples);
 
-            var testRunner = NodeTestRunner.Create();
+            var testRunner = TestRunner.Create();
 
             Console.WriteLine("Javascript:");
             PerfRunner.Run(() => testRunner.RunTests(@"JS\test.js"));

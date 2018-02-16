@@ -11,7 +11,7 @@
 
     public class MochaDefinitionFacts
     {
-        private class MochaDefinitionCreator : Testable<MochaDefinition>
+        private class MochaDefinitionCreator : Testable<FrameworkDefinitions.PhantomJS.MochaDefinition>
         {
             public MochaDefinitionCreator()
             {

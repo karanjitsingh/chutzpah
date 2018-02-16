@@ -58,21 +58,33 @@ namespace Chutzpah.JSRuntimeProviders
             //string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
             //string fileUrl = BuildHarnessUrl(testContext);
             string runnerPath = fileProbe.FindFilePath(testContext.TestRunner);
-            string fileUrl = GetTestPaths(testContext);
+            string fileUrl = ConcatTestPaths(testContext);
 
             string runnerArgs = BuildRunnerArgs(options, testContext, fileUrl, runnerPath, testExecutionMode);
 
             Func<ProcessStream, IList<TestFileSummary>> streamProcessor =
             processStream => testCaseStreamReaderFactory.Create().Read(processStream, options, testContext, callback, m_debugEnabled);
 
-            var processResult = process.RunExecutableAndProcessOutput(headlessBrowserPath, runnerArgs, streamProcessor);
+            var envVars = BuildEnvironmentVariables();
+
+            var processResult = process.RunExecutableAndProcessOutput(headlessBrowserPath, runnerArgs, streamProcessor, envVars);
 
             HandleTestProcessExitCode(processResult.ExitCode, testContext.FirstInputTestFile, processResult.Model.Select(x => x.Errors).FirstOrDefault(), callback);
 
             return processResult.Model;
         }
 
-        private static string GetTestPaths(TestContext testContext)
+        private IDictionary<string, string> BuildEnvironmentVariables()
+        {
+            var envVars = new Dictionary<string, string>();
+
+            var chutzpahNodeModules = fileProbe.FindFolderPath(@"ChutzpahJSRunners\NodeJS\node_modules");
+
+            envVars.Add("NODE_PATH", chutzpahNodeModules);
+            return envVars;
+        }
+
+        private static string ConcatTestPaths(TestContext testContext)
         {
             if(testContext.InputTestFiles.Count == 1)
             {

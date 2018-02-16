@@ -12,7 +12,7 @@ namespace Chutzpah.Facts.Library
 
     public class JasmineDefinitionFacts
     {
-        private class JasmineDefinitionCreator : Testable<JasmineDefinition>
+        private class JasmineDefinitionCreator : Testable<FrameworkDefinitions.PhantomJS.JasmineDefinition>
         {
             public JasmineDefinitionCreator()
             {

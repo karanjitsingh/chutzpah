@@ -1,0 +1,10 @@
+{
+  "name": "chutzpah",
+  "version": "1.0.0",
+  "description": "Chutzpah node modules",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine": "^2.9.0"
+  }
+}

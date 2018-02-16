@@ -8,7 +8,7 @@ namespace Chutzpah
     {
         void LaunchLocalFileInBrowser(string file);
         void LaunchFileInBrowser(TestContext testContext, string file, string browserName = null, IDictionary<string, string> browserArgs = null);
-        ProcessResult<T> RunExecutableAndProcessOutput<T>(string exePath, string arguments, Func<ProcessStream, T> streamProcessor) where T : class;
+        ProcessResult<T> RunExecutableAndProcessOutput<T>(string exePath, string arguments, Func<ProcessStream, T> streamProcessor, IDictionary<string, string> envVars) where T : class;
         BatchCompileResult RunBatchCompileProcess(BatchCompileConfiguration compileConfiguration);
     }
 }

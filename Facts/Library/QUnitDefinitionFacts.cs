@@ -11,7 +11,7 @@
 
     public class QUnitDefinitionFacts
     {
-        private class QUnitDefinitionCreator : Testable<QUnitDefinition>
+        private class QUnitDefinitionCreator : Testable<FrameworkDefinitions.PhantomJS.QUnitDefinition>
         {
             public QUnitDefinitionCreator()
             {
