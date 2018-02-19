@@ -107,12 +107,14 @@ jasmine.addReporter(new ChutzpahJasmineReporter());
 
 if (chutzpah.testMode === 'discovery') {
 
-    var oldSpecExec = jasmine.jasmine.Spec.prototype.execute;
+    jasmine.jasmine.getEnv().beforeAll = function () { };
+    jasmine.jasmine.getEnv().afterAll = function () { };
     jasmine.jasmine.Spec.prototype.execute = function (onComplete) {
 
         this.onStart(this);
         this.resultCallback(this.result);
-        onComplete();
+        if (onComplete)
+            onComplete();
     };
 }
 

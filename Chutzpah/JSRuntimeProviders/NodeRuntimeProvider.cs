@@ -79,7 +79,6 @@ namespace Chutzpah.JSRuntimeProviders
             var envVars = new Dictionary<string, string>();
 
             var chutzpahNodeModules = fileProbe.FindFolderPath(@"ChutzpahJSRunners\NodeJS\node_modules");
-
             envVars.Add("NODE_PATH", chutzpahNodeModules);
             return envVars;
         }
@@ -104,10 +103,10 @@ namespace Chutzpah.JSRuntimeProviders
             string runnerArgs;
             var testModeStr = testExecutionMode.ToString().ToLowerInvariant();
             var timeout = context.TestFileSettings.TestFileTimeout ?? options.TestFileTimeoutMilliseconds ?? Constants.DefaultTestFileTimeout;
-            var proxy = options.Proxy ?? context.TestFileSettings.Proxy;
-            var proxySetting = string.IsNullOrEmpty(proxy) ? "--proxy-type=none" : string.Format("--proxy={0}", proxy);
+            //var proxy = options.Proxy ?? context.TestFileSettings.Proxy;
+            //var proxySetting = string.IsNullOrEmpty(proxy) ? "--proxy-type=none" : string.Format("--proxy={0}", proxy);
 
-            runnerArgs = string.Format("{0} {1} {2}",
+            runnerArgs = string.Format("{0} {1} {2} {3}",
                                         runnerPath,
                                         fileUrl,
                                         testModeStr,

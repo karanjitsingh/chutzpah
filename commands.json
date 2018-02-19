@@ -1,0 +1,10 @@
+{
+  "commands": {
+    "npm_install": {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File Chutzpah\\npm_install.ps1"
+    }
+  },
+  "-vs-binding": { "AfterBuild": [ "npm_install" ] }
+}
