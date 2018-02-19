@@ -12,13 +12,14 @@ namespace Chutzpah.FrameworkDefinitions.NodeJS
     public class JasmineDefinition : BaseFrameworkDefinition
     {
         private IEnumerable<string> fileDependencies = new List<string>();
+        private IEnumerable<IJasmineReferencedFileProcessor> fileProcessors;
 
         /// <summary>
         /// Initializes a new instance of the JasmineDefinition class.
         /// </summary>
-        public JasmineDefinition()
+        public JasmineDefinition(IEnumerable<IJasmineReferencedFileProcessor> fileProcessors)
         {
-
+            this.fileProcessors = fileProcessors;
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace Chutzpah.FrameworkDefinitions.NodeJS
         {
             get
             {
-                return null;
+                return this.fileProcessors;
             }
         }
     }
