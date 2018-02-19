@@ -27,7 +27,6 @@ namespace Chutzpah.VS2012.TestAdapter
 
         public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
-            Debugger.Launch();
             if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER_CHUTZPAH") != null)
             {
                 Debugger.Launch();
