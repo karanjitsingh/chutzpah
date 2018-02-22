@@ -15,6 +15,9 @@ goto Build
 
 :Install
 .\Tools\nuget.exe restore Chutzpah.VS.sln
+cd .\Chutzpah\ChutzpahJSRunners\NodeJS\
+npm install
+cd ..\..\..\
 goto Build
 
 :Build
