@@ -32,7 +32,7 @@ namespace Chutzpah.JSRuntimeProviders
         {
             return false;
         }
-       
+
         public NodeRuntimeProvider(ITestCaseStreamReaderFactory testCaseStreamReaderFactory,
                                    IFileProbe fileProbe,
                                    IProcessHelper process)
@@ -43,9 +43,10 @@ namespace Chutzpah.JSRuntimeProviders
 
             headlessBrowserPath = fileProbe.FindFilePath(HeadlessBrowserName);
             if (headlessBrowserPath == null)
-                throw new FileNotFoundException("Unable to find headless browser: " + HeadlessBrowserName);
+                throw new FileNotFoundException("Unable to find engine: " + HeadlessBrowserName);
             if (fileProbe.FindFilePath(TestRunnerJsName) == null)
                 throw new FileNotFoundException("Unable to find test runner base js file: " + TestRunnerJsName);
+
         }
 
         public IList<TestFileSummary> InvokeTestRunner(TestOptions options,
@@ -83,7 +84,7 @@ namespace Chutzpah.JSRuntimeProviders
             return envVars;
         }
 
-        private static string ConcatTestPaths(TestContext testContext)
+        public static string ConcatTestPaths(TestContext testContext)
         {
             if(testContext.InputTestFiles.Count == 1)
             {

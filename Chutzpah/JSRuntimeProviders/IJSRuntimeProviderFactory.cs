@@ -1,13 +1,10 @@
 ﻿using Chutzpah.Models;
+using System.Collections.Concurrent;
 
 namespace Chutzpah.JSRuntimeProviders
 {
     public interface IJSRuntimeProviderFactory
     {
-        IJSRuntimeProvider Create(JavaScriptEngine? javaScriptEngine,
-                                  ITestCaseStreamReaderFactory testCaseStreamReaderFactory,
-                                  IFileProbe fileProbe,
-                                  IProcessHelper process,
-                                  IUrlBuilder urlBuilder);
+        IJSRuntimeProvider GetRuntimeProvider(JavaScriptEngine javaScriptEngine);
     }
 }

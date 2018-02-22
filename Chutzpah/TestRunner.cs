@@ -22,7 +22,6 @@ namespace Chutzpah
         private readonly Stopwatch stopWatch;
         private readonly IProcessHelper process;
         private readonly ITestCaseStreamReaderFactory testCaseStreamReaderFactory;
-        private readonly IJSRuntimeProviderFactory jsRuntimeProviderFactory;
         private readonly IFileProbe fileProbe;
         private readonly IBatchCompilerService batchCompilerService;
         private readonly ITestHarnessBuilder testHarnessBuilder;
@@ -67,7 +66,6 @@ namespace Chutzpah
 
         public TestRunner(IProcessHelper process,
                           ITestCaseStreamReaderFactory testCaseStreamReaderFactory,
-                          IJSRuntimeProviderFactory jsRuntimeProviderFactory,
                           IFileProbe fileProbe,
                           IBatchCompilerService batchCompilerService,
                           ITestHarnessBuilder testHarnessBuilder,
@@ -88,7 +86,6 @@ namespace Chutzpah
             this.testSettingsService = testSettingsService;
             this.transformProcessor = transformProcessor;
             this.webServerFactory = webServerFactory;
-            this.jsRuntimeProviderFactory = jsRuntimeProviderFactory;
         }
 
 
@@ -241,8 +238,16 @@ namespace Chutzpah
                 var webServerHost = SetupWebServerHost(testContexts, activeWebServerHost);
                 ActiveWebServerHost = webServerHost;
 
+                // Will throw FileNotFoundException if required runtime dependencies are not found
+                var jsRuntimeProviderFactory = new JSRuntimeProviderFactory(testCaseStreamReaderFactory,
+                                                                            fileProbe,
+                                                                            process,
+                                                                            urlBuilder,
+                                                                            testContexts,
+                                                                            options);
+
                 // Build test harness for each context and execute it in parallel
-                ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, testFileSummaries, overallSummary, webServerHost);
+                ExecuteTestContexts(options, testExecutionMode, callback, testContexts, parallelOptions, testFileSummaries, overallSummary, webServerHost, jsRuntimeProviderFactory);
 
 
                 // Gather TestFileSummaries into TaseCaseSummary
@@ -266,6 +271,9 @@ namespace Chutzpah
             }
             catch (Exception e)
             {
+                if (e is FileNotFoundException)
+                    throw e;
+
                 callback.ExceptionThrown(e);
 
                 ChutzpahTracer.TraceError(e, "Unhandled exception during Chutzpah test run");
@@ -388,7 +396,8 @@ namespace Chutzpah
             ParallelOptions parallelOptions,
             ConcurrentQueue<TestFileSummary> testFileSummaries,
             TestCaseSummary overallSummary,
-            IChutzpahWebServerHost webServerHost)
+            IChutzpahWebServerHost webServerHost,
+            IJSRuntimeProviderFactory jSRuntimeProviderFactory)
         {
             Parallel.ForEach(
                 testContexts,
@@ -429,14 +438,10 @@ namespace Chutzpah
                                 testContext.TestHarnessPath,
                                 testContext.FirstInputTestFile);
 
-                            IJSRuntimeProvider jsRuntimeProvider = jsRuntimeProviderFactory.Create(testContext.TestFileSettings.JavaScriptEngine,
-                                                                                                   testCaseStreamReaderFactory,
-                                                                                                   fileProbe,
-                                                                                                   process,
-                                                                                                   urlBuilder);
+                            IJSRuntimeProvider jsRuntimeProvider = jSRuntimeProviderFactory.GetRuntimeProvider(testContext.TestFileSettings.JavaScriptEngine);
 
                             // NodeJS chutzpah runner does not require for us to create a test harness
-                            if(jsRuntimeProvider.RequiresTestHarness())
+                            if (jsRuntimeProvider.RequiresTestHarness())
                                 testHarnessBuilder.CreateTestHarness(testContext, options);
 
                             var testSummaries = jsRuntimeProvider.InvokeTestRunner(options,
@@ -484,6 +489,10 @@ namespace Chutzpah
                     }
                     catch (Exception e)
                     {
+
+                        if (e is FileNotFoundException)
+                            throw e;
+
                         var error = new TestError
                         {
                             InputTestFile = testContext.InputTestFiles.FirstOrDefault(),

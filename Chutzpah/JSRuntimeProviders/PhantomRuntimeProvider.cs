@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Chutzpah.BatchProcessor;
-using Chutzpah.Exceptions;
 using Chutzpah.Models;
-using Chutzpah.Utility;
-using Chutzpah.Transformers;
-using Chutzpah.Server;
-using Chutzpah.Server.Models;
 
 namespace Chutzpah.JSRuntimeProviders
 {
@@ -21,7 +11,6 @@ namespace Chutzpah.JSRuntimeProviders
         public static string HeadlessBrowserName = "phantomjs.exe";
         public static string TestRunnerJsName = @"ChutzpahJSRunners\PhantomJS\chutzpahRunner.js";
 
-  
         private readonly ITestCaseStreamReaderFactory testCaseStreamReaderFactory;
         private readonly IFileProbe fileProbe;
         private readonly IProcessHelper process;
@@ -46,7 +35,7 @@ namespace Chutzpah.JSRuntimeProviders
 
             headlessBrowserPath = fileProbe.FindFilePath(HeadlessBrowserName);
             if (headlessBrowserPath == null)
-                throw new FileNotFoundException("Unable to find headless browser: " + HeadlessBrowserName);
+                throw new FileNotFoundException("Unable to find engine: " + HeadlessBrowserName);
             if (fileProbe.FindFilePath(TestRunnerJsName) == null)
                 throw new FileNotFoundException("Unable to find test runner base js file: " + TestRunnerJsName);
         }

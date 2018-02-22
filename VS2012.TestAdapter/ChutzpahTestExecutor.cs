@@ -39,6 +39,8 @@ namespace Chutzpah.VS2012.TestAdapter
 
             ChutzpahTracingHelper.Toggle(settings.EnabledTracing);
 
+            Debugger.Launch();
+
             var testOptions = new TestOptions
                 {
                     TestLaunchMode =
