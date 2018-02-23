@@ -464,12 +464,9 @@ namespace Chutzpah
                 // Check using basic heuristic like looking for test( or module( for QUnit
                 () => frameworkDefinitions.FirstOrDefault(x => x.FileUsesFramework(fileText.Value, true, path.Type)
                                                                && x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine),
-
-                // Default to first definition that matches with requires JavaScript engine setting
-                () => frameworkDefinitions.FirstOrDefault(x => x.JavaScriptEngine == chutzpahTestSettings.JavaScriptEngine)
             };
 
-            definition = strategies.Select(x => x()).First(x => x != null);
+            definition = strategies.Select(x => x()).FirstOrDefault(x => x != null);
             return definition != null;
         }
 
